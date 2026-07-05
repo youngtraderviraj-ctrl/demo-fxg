@@ -1,6 +1,8 @@
 'use client'
 
 import { TrendingUp, TrendingDown, Users, DollarSign, FileText, Activity, Zap, ArrowUpRight } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 export default function Dashboard() {
   const stats = [
