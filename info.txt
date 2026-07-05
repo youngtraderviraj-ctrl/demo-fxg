@@ -1,0 +1,499 @@
+                    Admin Dashboard (Web)
+                            │
+                            │
+                     Backend API (FastAPI)
+                            │
+     ┌───────────────┬──────────────┬───────────────┐
+     │               │              │               │
+Client Service   Billing Service  Telegram Bot   MT5 Service
+     │               │              │               │
+     └───────────────┴──────────────┴───────────────┘
+                            │
+                       PostgreSQL
+                            │
+          Background Workers (Celery/APScheduler)
+                            │
+     ┌────────────┬──────────────┬──────────────┐
+     │            │              │              │
+ MT5 Profit   Weekly Billing   Payment Watch   Reminders
+ Calculation     Engine          (TRON)         Scheduler
+
+ Since you already have the MT5 profit calculation and Telegram automation working, I'd build this as a proper SaaS rather than adding features one by one. That way it can comfortably scale from **100 clients today to 1,000+ later**.
+
+# Overall Architecture
+
+```text
+                    Admin Dashboard (Web)
+                            │
+                            │
+                     Backend API (FastAPI)
+                            │
+     ┌───────────────┬──────────────┬───────────────┐
+     │               │              │               │
+Client Service   Billing Service  Telegram Bot   MT5 Service
+     │               │              │               │
+     └───────────────┴──────────────┴───────────────┘
+                            │
+                       PostgreSQL
+                            │
+          Background Workers (Celery/APScheduler)
+                            │
+     ┌────────────┬──────────────┬──────────────┐
+     │            │              │              │
+ MT5 Profit   Weekly Billing   Payment Watch   Reminders
+ Calculation     Engine          (TRON)         Scheduler
+```
+
+---
+
+# Admin Dashboard
+
+This is your control panel.
+
+### Client Management
+
+* Add client
+* Edit client
+* Delete client
+* Suspend client
+* Search client
+* Assign Telegram ID
+* Assign MT5 Account
+* Assign Wallet
+* Change performance fee %
+* Notes
+
+---
+
+### Profit Dashboard
+
+* Total clients
+* Active clients
+* Total weekly profit
+* Total fees due
+* Total collected
+* Pending invoices
+
+---
+
+### Billing
+
+* Generate invoices
+* Edit invoice
+* Mark paid manually
+* Automatic payment detection
+* Download invoice
+* Payment history
+
+---
+
+### Telegram
+
+* Send message to one client
+* Broadcast to all
+* Weekly scheduler
+* Reminder scheduler
+* Custom templates
+* Media support
+* Preview before sending
+
+---
+
+### Analytics
+
+* Revenue
+* Monthly collection
+* Pending dues
+* Top profitable clients
+* Client history
+
+---
+
+### Settings
+
+* Performance fee %
+* Wallet addresses
+* Telegram Bot Token
+* API Keys
+* Admin users
+* Roles & permissions
+
+---
+
+# Client Dashboard
+
+Each client gets their own login.
+
+### Home
+
+```
+Today's Profit
+
+Weekly Profit
+
+Monthly Profit
+
+Current Equity
+
+Current Balance
+```
+
+---
+
+### Billing
+
+```
+Invoice
+
+Due Amount
+
+Payment Status
+
+Pay Now Button
+
+Transaction History
+```
+
+---
+
+### Performance
+
+```
+Daily Profit
+
+Weekly Profit
+
+Monthly Profit
+
+Win Rate
+
+Drawdown
+
+Charts
+```
+
+---
+
+### Notifications
+
+```
+Previous Telegram messages
+
+Invoice reminders
+
+Announcements
+```
+
+---
+
+### Profile
+
+```
+Telegram
+
+Email
+
+Wallet
+
+Password
+
+Security
+```
+
+---
+
+# Database Structure
+
+```
+Users
+
+Clients
+
+Accounts
+
+MT5 Accounts
+
+Profit History
+
+Invoices
+
+Transactions
+
+Telegram Logs
+
+Payment Logs
+
+Schedules
+
+Admin Users
+
+Settings
+```
+
+---
+
+# Development Phases
+
+## Phase 1
+
+### Authentication
+
+✅ Admin Login
+
+✅ Client Login
+
+JWT Authentication
+
+Roles
+
+Permissions
+
+---
+
+## Phase 2
+
+### Client Management
+
+CRUD
+
+Search
+
+Pagination
+
+Import CSV
+
+Export CSV
+
+---
+
+## Phase 3
+
+### MT5 Integration
+
+You already have this.
+
+Move it into an API.
+
+```
+MT5
+
+↓
+
+Profit Calculation
+
+↓
+
+Database
+```
+
+---
+
+## Phase 4
+
+### Dashboard
+
+Charts
+
+Statistics
+
+Reports
+
+Profit History
+
+---
+
+## Phase 5
+
+### Telegram Automation
+
+Scheduler
+
+Templates
+
+Broadcast
+
+Media
+
+Buttons
+
+Invoice messages
+
+---
+
+## Phase 6
+
+### Billing
+
+Weekly invoice generation
+
+Invoice status
+
+Due dates
+
+Auto reminders
+
+Payment history
+
+---
+
+## Phase 7
+
+### Crypto Payment Collector
+
+```
+Client pays USDT
+
+↓
+
+TRONSCAN API
+
+↓
+
+Verify payment
+
+↓
+
+Update DB
+
+↓
+
+Telegram Receipt
+
+↓
+
+Dashboard Updated
+```
+
+---
+
+## Phase 8
+
+### Client Portal
+
+Login
+
+Charts
+
+Invoices
+
+Payments
+
+History
+
+Profile
+
+---
+
+## Phase 9
+
+### Reports
+
+Revenue
+
+Monthly
+
+Pending
+
+Collections
+
+Profit
+
+Exports
+
+---
+
+## Suggested Tech Stack
+
+### Backend
+
+* **Python + FastAPI** (high performance and easy to integrate with your existing Python MT5 code)
+
+### Database
+
+* **PostgreSQL**
+
+### ORM
+
+* SQLAlchemy
+
+### Background Jobs
+
+* Celery + Redis (best for scaling) or APScheduler (simpler for a smaller deployment)
+
+### Frontend
+
+* **Next.js (React)** for both Admin and Client dashboards
+
+### Charts
+
+* Recharts or Chart.js
+
+### Authentication
+
+* JWT + Refresh Tokens
+
+### Deployment
+
+* AWS EC2 (where your MT5 bot can already run)
+* Nginx
+* Docker
+* HTTPS with Let's Encrypt
+
+---
+
+# Recommended Development Timeline
+
+### Week 1
+
+* Backend setup
+* Database design
+* Authentication
+* User roles
+
+### Week 2
+
+* Admin dashboard
+* Client management
+* MT5 integration
+
+### Week 3
+
+* Telegram scheduler
+* Message templates
+* Broadcast system
+
+### Week 4
+
+* Billing engine
+* Invoice generation
+* Reminder automation
+
+### Week 5
+
+* TRON payment collector
+* Auto-verification
+* Payment status updates
+
+### Week 6
+
+* Client dashboard
+* Performance charts
+* Invoice history
+* Final testing and deployment
+
+---
+
+## Long-Term Vision
+
+Think of this as a **"Trading Fund Management Platform"** rather than just a bot. Once this foundation is in place, adding features becomes much easier:
+
+* Multiple MT5 accounts per client
+* Investor-specific fee structures
+* Stripe or Razorpay alongside crypto payments
+* Referral and affiliate tracking
+* KYC/document uploads
+* Support ticket system
+* Mobile app (using the same FastAPI backend)
+* White-label support for other traders or firms
+
+Designing the backend as modular services from the beginning will let you keep extending the platform without major rewrites.
