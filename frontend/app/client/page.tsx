@@ -11,20 +11,8 @@ export default function ClientDashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const user = localStorage.getItem('user')
-    if (!user) {
-      router.push('/login')
-      return
-    }
-
-    const userData = JSON.parse(user)
-    if (userData.role !== 'client') {
-      router.push('/admin')
-      return
-    }
-
     loadData()
-  }, [router])
+  }, [])
 
   const loadData = async () => {
     try {
